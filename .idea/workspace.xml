@@ -11,30 +11,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81570fff-fbf5-4f93-9c5d-fbcc9d7aa085" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/PLATFORM.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/bcgGrad0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/bcgGrad1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/bcgGrad2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/bcgGrad3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/dino.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/include/Layers.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/include/Layers.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/Collider.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Collider.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/GameObject.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/GameObject.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/Maze.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/MazeNode.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/Player.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Player.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Collider.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Collider.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameObject.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObject.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Maze.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MazeNode.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Player.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="81570fff-fbf5-4f93-9c5d-fbcc9d7aa085" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +96,7 @@
       <workItem from="1576443631235" duration="598000" />
       <workItem from="1576499435972" duration="636000" />
       <workItem from="1576528648905" duration="3066000" />
-      <workItem from="1576559317390" duration="10457000" />
+      <workItem from="1576559317390" duration="10702000" />
     </task>
     <task id="LOCAL-00001" summary="Player1 and Player2 movement&#10;Drawing triangles">
       <created>1571692139201</created>
@@ -135,7 +112,21 @@
       <option name="project" value="LOCAL" />
       <updated>1571692180868</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="pralax effect, gameplay">
+      <created>1576569878463</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1576569878463</updated>
+    </task>
+    <task id="LOCAL-00004" summary="whithout second main">
+      <created>1576570015199</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1576570015199</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -156,7 +147,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Player1 and Player2 movement&#10;Drawing triangles" />
-    <option name="LAST_COMMIT_MESSAGE" value="Player1 and Player2 movement&#10;Drawing triangles" />
+    <MESSAGE value="pralax effect, gameplay" />
+    <MESSAGE value="whithout second main" />
+    <option name="LAST_COMMIT_MESSAGE" value="whithout second main" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

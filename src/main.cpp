@@ -226,8 +226,8 @@ int main( int argc, char* args[] )
     layers->addGOtoLayer(0, bcg3);
     auto* bcg4 = new GameObject((3*LEVEL_WIDTH)/2.0, 0);
     layers->addGOtoLayer(0, bcg4);
-    auto* obst = new GameObject(LEVEL_WIDTH/2.0, 400);
-    auto* obstColl = new Collider(obst->getX(), obst->getY(), Shape::rect, false, obst, 50, 50);
+    auto* obst = new GameObject(LEVEL_WIDTH/2.0, 350);
+    auto* obstColl = new Collider(obst->getX(), obst->getY(), Shape::rect, false, obst, 50, 100);
     layers->addGOtoLayer(1, obst);
     auto* star = new GameObject(LEVEL_WIDTH, 100);
     layers->addGOtoLayer(2, star);
