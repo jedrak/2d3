@@ -24,10 +24,9 @@ public:
 
 public:
     Collider(float x, float y, Shape s, bool kinematic, GameObject *parent, float w, float h);
-
     bool checkCollision(Collider* other);
-    void update() override;
-    void start() override;
+    void update();
+    void start();
 
 };
 

@@ -5,6 +5,8 @@
 #include "GameObject.h"
 
 #include <utility>
+#include <iostream>
+
 void drawEquilateralTriangle(SDL_Renderer *renderer, int x, int y, int a, int h, int r, int g, int b, int alpha) {
     if(h>0) {
         SDL_SetRenderDrawColor(renderer, r, g, b, alpha);
@@ -51,13 +53,25 @@ void GameObject::render(SDL_Renderer *renderer, int r, int g, int b, int a) {
     else if(this->shape == Shape::triangle){
         drawEquilateralTriangle(renderer, this->x, this->y, 10, 11, r, g, b, a);
     }
-    else if(this->shape == Shape::texture){}
+    else if(this->shape == Shape::texture){
+        SDL_Rect fillRect = {static_cast<int>(this->getX()), static_cast<int>(this->getY()), 100, 100};
+        SDL_RenderCopy(renderer, this->texture, nullptr, nullptr);
+
+    }
 }
 
 GameObject::GameObject(float x, float y, Shape s) : x(x), y(y), shape(s){}
 
 Shape GameObject::getShape() const {
     return shape;
+}
+
+SDL_Texture *GameObject::getTexture() const {
+    return texture;
+}
+
+void GameObject::setTexture(SDL_Texture *texture) {
+    GameObject::texture = texture;
 }
 
 

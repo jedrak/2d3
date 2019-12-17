@@ -21,12 +21,17 @@ private:
     float  x, y;
     Shape shape;
 public:
+    SDL_Texture *getTexture() const;
+
+    void setTexture(SDL_Texture *texture);
+
+    SDL_Texture *texture;
+public:
     GameObject();
     GameObject(float x, float y);
     GameObject(float x, float y, Shape s);
     ~GameObject();
-    virtual void update() = 0;
-    virtual void start() = 0;
+
 
     Shape getShape() const;
 

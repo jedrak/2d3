@@ -19,6 +19,7 @@ Player::Player() : GameObject(), speedX(0), speedY(0) {}
 Player::Player(float x, float y) : GameObject(x, y), speedX(0), speedY(0){}
 
 void Player::update() {
+    this->setSpeedY(this->speedY + accY);
     this->setX(this->getX() + speedX );
     this->setY(this->getY() + speedY );
 }
@@ -36,6 +37,19 @@ Player::~Player() {
 
 Player::Player(float x, float y, Shape s, float speedX, float speedY) : GameObject(x, y, s), speedX(speedX),
                                                                         speedY(speedY) {}
+
+void Player::setAccY(float accY) {
+    Player::accY = accY;
+}
+
+float Player::getAccY() const {
+    return accY;
+}
+
+float Player::getSpeedX() const {
+    return speedX;
+}
+
 
 
 

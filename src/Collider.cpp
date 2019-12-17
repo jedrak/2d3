@@ -25,31 +25,43 @@ bool Collider::checkCollision(Collider* other) {
                         l1 = this->getX(), l2 = other->getX(),
                         t1 = this->getY(), t2 = other->getY(),
                         b1 = this->getY()+h, b2 = other->getY()+other->getH();
+                //std::cout<<(r1>l2) << (r2>l1) << (b1>t2) << (b2>t1) <<std::endl;
                 if(r1>l2 && r2>l1 && b1>t2 && b2>t1) {
-                   float left = r1 - l2, right = r2 - l1, top = b1 - t2, bottom = b2 - t1, deltaX = 0, deltaY = 0;
-                   left < right ? deltaX = - left : deltaX = + right;
-                   top < bottom ? deltaY =  - top : deltaY = + bottom;
-                   if(abs(deltaX) < abs(deltaY)) deltaX = 0;
-                   else if(abs(deltaX) > abs(deltaY)) deltaY = 0;
-                   //std::cout<<"left: " << left << " right: "<< right << " top: "<< top << " bottom: " << bottom<<std::endl;
-                   //std::cout << "x: " << this->getX() << " y: " << this->getY() << " deltaX: " << deltaX << " deltaY: " << deltaY << std::endl;
-                   this->parent->setX(this->parent->getX()+deltaX);
-                   this->parent->setY(this->parent->getY()+deltaY);
+                    float left = r2 - l1, right = r1 - l2, top = b2 - t1, bottom = b1 - t2, deltaX = 0, deltaY = 0;
+                    if(this->getY()<other->getY()) {
+                        deltaY = -bottom;
+                    }
+                    else{
+                        deltaY = +top;
+                    }
+
+                    if(this->getX()<other->getX()) {
+                        deltaX = -right;
+                    }
+                    else{
+                        deltaX = +left;
+                    }
+                    if(abs(deltaX) < abs(deltaY)) deltaY = 0;
+                    else if(abs(deltaX) > abs(deltaY)) deltaX = 0;
+                    //std::cout<<"left: " << left << " right: "<< right << " top: "<< top << " bottom: " << bottom<<std::endl;
+                    //std::cout << "x: " << this->getX() << " y: " << this->getY() << " deltaX: " << deltaX << " deltaY: " << deltaY << std::endl;
+                    this->parent->setX(this->parent->getX()+deltaX);
+                    this->parent->setY(this->parent->getY()+deltaY);
                 }
-                return l2>=r1 && r1<=l2 && b2>=t1 && b1>=t2;
+                return r1>l2 && r2>l1 && b1>t2 && b2>t1;
             }
             break;
         case triangle:
             break;
         case circle:
             break;
-        case texture:
+        case 4:
             break;
     }
 }
 
 Collider::Collider(float x, float y, Shape s, bool kinematic, GameObject *parent, float w, float h)
-: GameObject(x, y, s), kinematic(kinematic), parent(parent), w(w), h(h) {}
+        : GameObject(x, y, s), kinematic(kinematic), parent(parent), w(w), h(h) {}
 
 float Collider::getW() const {
     return w;

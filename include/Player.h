@@ -10,8 +10,23 @@
 #include "GameObject.h"
 
 class Player : public GameObject{
-    float speedX, speedY;
-    SDL_Texture *playerTexture;
+    float speedX, speedY, accY;
+public:
+    float getSpeedX() const;
+
+public:
+    float getAccY() const;
+
+public:
+    void setAccY(float accY);
+
+private:
+    //SDL_Texture *playerTexture;
+public:
+    //SDL_Texture *getPlayerTexture() const;
+
+    //void setPlayerTexture(SDL_Texture *playerTexture);
+
 public:
     void setSpeedX(float speed);
     void setSpeedY(float speed);

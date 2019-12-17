@@ -9,10 +9,10 @@ and may not be redistributed without written permission.*/
 #include <cmath>
 #include <iostream>
 #include <Player.h>
-#include <MazeNode.h>
-#include <Maze.h>
+
 #include <ctime>
 #include <Collider.h>
+#include <Layers.h>
 
 
 const int LEVEL_WIDTH = 1080;
@@ -22,7 +22,7 @@ const int SCREEN_WIDTH = 645;
 const int SCREEN_HEIGHT = 496;
 //Analog joystick dead zone
 const int JOYSTICK_DEAD_ZONE = 8000;
-const float speed = .1;
+const float speed = .02;
 //Starts up SDL and creates window
 bool init();
 //Loads media
@@ -38,7 +38,13 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 //Current displayed texture
-SDL_Texture* gTexture = NULL;
+SDL_Texture* gTextureDino = NULL;
+SDL_Texture* gTextureBCG1 = NULL;
+SDL_Texture* gTextureBCG2 = NULL;
+SDL_Texture* gTextureBCG3 = NULL;
+SDL_Texture* gTextureBCG4 = NULL;
+SDL_Texture* gTexturePLATFORM = NULL;
+SDL_Texture* gTextureStar = NULL;
 //Game Controller 1 handler
 SDL_Joystick* gGameController = NULL;
 
@@ -115,13 +121,48 @@ bool loadMedia()
     bool success = true;
 
     //Load PNG texture
-    gTexture = loadTexture( "../assets/bcg.png" );
-    if( gTexture == NULL )
+    gTextureDino = loadTexture("../assets/dino.png" );
+    if(gTextureDino == NULL )
     {
         printf( "Failed to load texture image!\n" );
         success = false;
     }
-
+    gTextureBCG1 = loadTexture("../assets/bcgGrad0.png" );
+    if(gTextureBCG1 == NULL )
+    {
+        printf( "Failed to load texture image!\n" );
+        success = false;
+    }
+    gTextureBCG2 = loadTexture("../assets/bcgGrad1.png" );
+    if(gTextureBCG2 == NULL )
+    {
+        printf( "Failed to load texture image!\n" );
+        success = false;
+    }
+    gTextureBCG3 = loadTexture("../assets/bcgGrad2.png" );
+    if(gTextureBCG3 == NULL )
+    {
+        printf( "Failed to load texture image!\n" );
+        success = false;
+    }
+    gTextureBCG4 = loadTexture("../assets/bcgGrad3.png" );
+    if(gTextureBCG4 == NULL )
+    {
+        printf( "Failed to load texture image!\n" );
+        success = false;
+    }
+    gTexturePLATFORM = loadTexture("../assets/PLATFORM.png" );
+    if(gTexturePLATFORM == NULL )
+    {
+        printf( "Failed to load texture image!\n" );
+        success = false;
+    }
+    gTextureStar = loadTexture("../assets/star.png" );
+    if(gTextureStar == NULL )
+    {
+        printf( "Failed to load texture image!\n" );
+        success = false;
+    }
     return success;
 }
 
@@ -171,17 +212,34 @@ SDL_Texture* loadTexture( std::string path )
 
 int main( int argc, char* args[] )
 {
-    srand((time(NULL)));
-    auto* player1 = new Player( 15, 15);
-    auto* player2 = new Player(SCREEN_WIDTH-30, 15, Shape::rect, 0, 0);
-    auto* coll1 = new Collider(player1->getX(), player1->getY(), Shape::rect, false, player1, 10, 10);
-    auto* coll2 = new Collider(player2->getX(), player2->getY(), Shape::rect, false, player2, 10, 10);
-    auto* finish = new Collider((SCREEN_WIDTH/2)-9, SCREEN_HEIGHT-30, Shape::rect, false, nullptr, 10, 10);
-    auto* maze = new Maze(0,0, 21, 16);
+    float bcgspeed=0;
+    auto* player1 = new Player(15, 15, texture, 0, 0);
+   // player1->setTexture(gTextureDino);
+    bool grounded = false;
+    auto* coll1 = new Collider(player1->getX(), player1->getY(), Shape::rect, false, player1, 50, 100);
+    auto* layers = new Layers();
+    auto* bcg1 = new GameObject(0, 0);
+    layers->addGOtoLayer(0, bcg1);
+    auto* bcg2 = new GameObject(LEVEL_WIDTH/2.0, 0);
+    layers->addGOtoLayer(0, bcg2);
+    auto* bcg3 = new GameObject(LEVEL_WIDTH, 0);
+    layers->addGOtoLayer(0, bcg3);
+    auto* bcg4 = new GameObject((3*LEVEL_WIDTH)/2.0, 0);
+    layers->addGOtoLayer(0, bcg4);
+    auto* obst = new GameObject(LEVEL_WIDTH/2.0, 400);
+    auto* obstColl = new Collider(obst->getX(), obst->getY(), Shape::rect, false, obst, 50, 50);
+    layers->addGOtoLayer(1, obst);
+    auto* star = new GameObject(LEVEL_WIDTH, 100);
+    layers->addGOtoLayer(2, star);
+
+
+
+    auto* floor = new Collider(-2*SCREEN_WIDTH, SCREEN_HEIGHT-30, Shape::rect, false, nullptr, 4*SCREEN_WIDTH, 10);
+
     //mazenode->addColliders();
-    maze->generate();
+
     player1->start();
-    player2->start();
+
     //Start up SDL and create window
     if( !init() )
     {
@@ -218,19 +276,11 @@ int main( int argc, char* args[] )
                         //Select surfaces based on key press
                         switch (e.key.keysym.sym) {
                             case SDLK_UP:
-                                player1->setSpeedY(-speed);
+                                if(grounded) player1->setSpeedY(-12*speed);
                                 break;
 
                             case SDLK_DOWN:
                                 player1->setSpeedY(speed);
-                                break;
-
-                            case SDLK_LEFT:
-                                player1->setSpeedX(-speed);
-                                break;
-
-                            case SDLK_RIGHT:
-                                player1->setSpeedX(speed);
                                 break;
 
                         }
@@ -245,94 +295,72 @@ int main( int argc, char* args[] )
                                 player1->setSpeedY(0);
                                 break;
 
-                            case SDLK_LEFT:
-                                player1->setSpeedX(0);
-                                break;
-
-                            case SDLK_RIGHT:
-                                player1->setSpeedX(0);
-                                break;
-                        }
-                    }else if(e.type == SDL_JOYAXISMOTION){
-                        if(e.jaxis.which == 0){
-                            //X axis motion
-                            if( e.jaxis.axis == 0 )
-                            {
-                                //Left of dead zone
-                                if( e.jaxis.value < -JOYSTICK_DEAD_ZONE )
-                                {
-                                    player2->setSpeedX(-speed);
-                                }
-                                    //Right of dead zone
-                                else if( e.jaxis.value > JOYSTICK_DEAD_ZONE )
-                                {
-                                    player2->setSpeedX(speed);
-                                }
-                                else
-                                {
-                                    player2->setSpeedX(0);
-                                }
-                            }
-                            else if(e.jaxis.axis == 1){
-                                //Below of dead zone
-                                if( e.jaxis.value < -JOYSTICK_DEAD_ZONE )
-                                {
-                                    player2->setSpeedY(-speed);
-                                }
-                                    //Above of dead zone
-                                else if( e.jaxis.value > JOYSTICK_DEAD_ZONE )
-                                {
-                                    player2->setSpeedY(speed);
-                                }
-                                else
-                                {
-                                    player2->setSpeedY(0);
-                                }
-                            }
                         }
                     }
+
                 }
-
+                //player1->setSpeedY(speed);
                 //Update game objects
+                layers->update(bcgspeed);
+                if(player1->getX()>200){
+                    player1->setSpeedX(0);
+                    bcgspeed = 2*speed;
+                }
+                else
+                {
+                    player1->setSpeedX(2*speed);
+                    bcgspeed = 2*speed;
+                }
                 player1->update();
-                player2->update();
                 coll1->update();
-                coll2->update();
-                //std::cout<<"player1: "<<coll1->getX()<<" "<<coll1->getY()<<" "<<coll1->getX()+coll1->getW()<<" "<<coll1->getY()+coll1->getH()<<std::endl;
-                //std::cout<<"player2: "<<coll2->getX()<<" "<<coll2->getY()<<" "<<coll2->getX()+coll2->getW()<<" "<<coll2->getY()+coll2->getH()<<std::endl;
-                coll1->checkCollision(coll2);
-                //coll2->checkCollision(coll1);
-
-
+                obstColl->update();
 
                 //Clear screen
                 SDL_RenderClear( gRenderer );
-                //SDL_RenderCopy( gRenderer, gTexture, NULL, NULL );
+                //SDL_RenderCopy( gRenderer, gTextureDino, NULL, NULL );
                 //Render red filled quad
-                for(int i = 0; i<maze->getWidth(); i++){
-                    for(int j = 0; j<maze->getHeight(); j++){
-                        for(auto* coll : maze->getNodes()[i][j].colls){
-                            coll1 -> checkCollision(coll);
-                            coll2 -> checkCollision(coll);
-                        }
-                    }
+
+
+                grounded = coll1->checkCollision(floor);
+                if(!grounded)
+                {
+                    player1->setAccY(.0001);
+                }
+                else
+                {
+                    player1->setAccY(0);
+                }
+                std::cout<<star->getX()<<" "<<star->getY()<<" "<<std::endl;
+
+                //player1->render(gRenderer, 0x00, 0x00, 0x00, 0xff);
+                if(obstColl->checkCollision(coll1)){
+                    return 0;
                 }
 
-                if(coll1->checkCollision(finish) || coll2->checkCollision(finish)){
-                    quit = true;
-                }
-
-
-
-                //std::cout<<player1->getX()<<" "<<player1->getY()<<" "<<player2->getX()<<" "<<player2->getY()<<std::endl;
-                maze->render(gRenderer, 0x00, 0xff, 0x00, 0xff);
-                player1->render(gRenderer, 0xff, 0x00, 0x00, 0xff);
-                player2->render(gRenderer, 0x00, 0x00, 0xff, 124);
-                SDL_Rect fillRect = {finish->getX(), finish->getY(), finish->getW(), finish->getH()};
-                SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 30);
+                SDL_Rect fillRect;
+                //rendering player
                 SDL_RenderDrawRect(gRenderer, &fillRect);
+                fillRect = {bcg1->getX(), bcg1->getY(), LEVEL_WIDTH/2, LEVEL_HEIGHT};
+                SDL_RenderCopy(gRenderer, gTextureBCG1, nullptr, &fillRect);
+                fillRect = {bcg2->getX(), bcg2->getY(), LEVEL_WIDTH/2, LEVEL_HEIGHT};
+                SDL_RenderCopy(gRenderer, gTextureBCG2, nullptr, &fillRect);
+                fillRect = {bcg2->getX(), bcg2->getY(), LEVEL_WIDTH/2, LEVEL_HEIGHT};
+                SDL_RenderCopy(gRenderer, gTextureBCG3, nullptr, &fillRect);
+                fillRect = {bcg3->getX(), bcg3->getY(), LEVEL_WIDTH/2, LEVEL_HEIGHT};
+                SDL_RenderCopy(gRenderer, gTextureBCG4, nullptr, &fillRect);
+                fillRect = {0, 450, LEVEL_WIDTH, 50};
+                SDL_RenderCopy(gRenderer, gTexturePLATFORM, nullptr, &fillRect);
+                fillRect = {obstColl->getX(), obstColl->getY(), obstColl->getW(), obstColl->getH()};
+                SDL_RenderCopy(gRenderer, gTexturePLATFORM, nullptr, &fillRect);
+                fillRect = {star->getX(),0, 100, 100};
+                SDL_RenderCopy(gRenderer, gTextureStar, nullptr, &fillRect);
+                fillRect = {player1->getX(), player1->getY(), 100, 100};
+                SDL_RenderCopy(gRenderer, gTextureDino, nullptr, &fillRect);
 
-                SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
+
+
+
+                SDL_SetRenderDrawColor(gRenderer, 0x98, 0xdd, 0xff, 0xFF);
                 //Update screen
                 SDL_RenderPresent( gRenderer );
             }
