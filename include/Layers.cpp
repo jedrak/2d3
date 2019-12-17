@@ -5,7 +5,7 @@
 #include "Layers.h"
 
 Layers::Layers() {
-    layerSpeed = std::vector<float>({-1, -2, -4.0});
+    layerSpeed = std::vector<float>({-.5, -4, -.3});
     layers = std::vector<std::vector<GameObject*>>(3);
     for(std::vector<GameObject*> v : layers){
         v = std::vector<GameObject*>();

@@ -127,25 +127,25 @@ bool loadMedia()
         printf( "Failed to load texture image!\n" );
         success = false;
     }
-    gTextureBCG1 = loadTexture("../assets/bcgGrad0.png" );
+    gTextureBCG1 = loadTexture("../assets/mountain.png" );
     if(gTextureBCG1 == NULL )
     {
         printf( "Failed to load texture image!\n" );
         success = false;
     }
-    gTextureBCG2 = loadTexture("../assets/bcgGrad1.png" );
+    gTextureBCG2 = loadTexture("../assets/mountain.png" );
     if(gTextureBCG2 == NULL )
     {
         printf( "Failed to load texture image!\n" );
         success = false;
     }
-    gTextureBCG3 = loadTexture("../assets/bcgGrad2.png" );
+    gTextureBCG3 = loadTexture("../assets/mountain.png" );
     if(gTextureBCG3 == NULL )
     {
         printf( "Failed to load texture image!\n" );
         success = false;
     }
-    gTextureBCG4 = loadTexture("../assets/bcgGrad3.png" );
+    gTextureBCG4 = loadTexture("../assets/mountain.png" );
     if(gTextureBCG4 == NULL )
     {
         printf( "Failed to load texture image!\n" );
@@ -213,7 +213,7 @@ SDL_Texture* loadTexture( std::string path )
 int main( int argc, char* args[] )
 {
     float bcgspeed=0;
-    auto* player1 = new Player(15, 15, texture, 0, 0);
+    auto* player1 = new Player(0, 300, texture, 0, 0);
    // player1->setTexture(gTextureDino);
     bool grounded = false;
     auto* coll1 = new Collider(player1->getX(), player1->getY(), Shape::rect, false, player1, 50, 100);
@@ -330,7 +330,7 @@ int main( int argc, char* args[] )
                 {
                     player1->setAccY(0);
                 }
-                std::cout<<star->getX()<<" "<<star->getY()<<" "<<std::endl;
+                //std::cout<<star->getX()<<" "<<star->getY()<<" "<<std::endl;
 
                 //player1->render(gRenderer, 0x00, 0x00, 0x00, 0xff);
                 if(obstColl->checkCollision(coll1)){
@@ -359,8 +359,8 @@ int main( int argc, char* args[] )
 
 
 
-
-                SDL_SetRenderDrawColor(gRenderer, 0x98, 0xdd, 0xff, 0xFF);
+                //4A3071
+                SDL_SetRenderDrawColor(gRenderer, 0x4a, 0x30, 0x71, 0xFF);
                 //Update screen
                 SDL_RenderPresent( gRenderer );
             }
